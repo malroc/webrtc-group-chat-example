@@ -8,6 +8,7 @@ var PORT = 8080;
 /*** SETUP ***/
 /*************/
 var express = require('express');
+var bodyParser = require('body-parser');
 var http = require('http');
 var main = express()
 var server = http.createServer(main)
@@ -17,11 +18,13 @@ io.set('log level', 1);
 server.listen(PORT, null, function() {
     console.log("Listening on port " + PORT);
 });
-main.use(express.bodyParser());
+main.use(bodyParser());
 
-main.get('/', function(req, res){ res.sendfile('newclient.html'); });
-main.get('/index.html', function(req, res){ res.sendfile('newclient.html'); });
-main.get('/client.html', function(req, res){ res.sendfile('newclient.html'); });
+main.use('/bower_components', express.static(__dirname + '/bower_components'));
+
+main.get('/', function(req, res){ res.sendfile('client.html'); });
+main.get('/index.html', function(req, res){ res.sendfile('client.html'); });
+main.get('/client.html', function(req, res){ res.sendfile('client.html'); });
 
 
 
